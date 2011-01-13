@@ -1,0 +1,19 @@
+name: "Speedups"
+
+exports: "mootools-speedups.js"
+
+web: "[mootools.net](http://mootools.net)"
+
+description: "MooTools on stimulators"
+
+license: Public domain, http://unlicense.org
+
+copyright: "&copy; [MooTools](http://mootools.net)"
+
+authors: "Random folks"
+
+sources:
+  - "Source/Types/Object.js"
+  - "Source/Core/Class.Speedups.js"
+  - "Source/Core/Class.Extras.Speedups.js"
+  - "Source/Core/Core.Speedups.js"
