@@ -23,8 +23,7 @@ extends: Core/Core
 (function(){
 
 var arrayish = Array.prototype.indexOf;
-var stringish = Array.prototype.indexOf
-var numberish = Number.prototype.toFixed;
+var stringish = String.prototype.indexOf
 //Speedup 1: Avoid typeOf
 var cloneOf = function(item){
   if (item && typeof(item) == 'object' && item.indexOf != stringish && !(item.nodeName && item.nodeType)) {
