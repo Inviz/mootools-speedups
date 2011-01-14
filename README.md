@@ -7,4 +7,4 @@ Must have bugs.
 Reasoning
 ---------
 
-https://img.skitch.com/20101222-1s8ce3xur77ts64su9ge6krpyg.jpg
+https://img.skitch.com/20110114-e53jw49s28uh1n2bc3ctic3adb.png
