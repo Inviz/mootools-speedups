@@ -100,7 +100,6 @@ var implement = function(key, value, retain){
 };
 
 var getInstance = function(klass){
-if (!klass) debugger
 	klass.$prototyping = true;
 	var proto = new klass;
 	delete klass.$prototyping;
