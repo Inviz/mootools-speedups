@@ -39,7 +39,6 @@ var parent = function(){
 	var name = this.$caller.$name,
 		parent = this.$caller.$owner.parent,
 		previous = (parent) ? parent.prototype[name] : null;
-		if (!previous) console.dir(this.$caller)
 	if (!previous) throw new Error('The method "' + name + '" has no parent.');
 	return previous.apply(this, arguments);
 };
