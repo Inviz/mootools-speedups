@@ -40,7 +40,7 @@ Array.implement('clone', function(){
 
 //Speedup 2: Avoid typeOf
 var mergeOne = function(source, key, current){
-  if (current && typeof(current) == 'object' && current.indexOf != stringish && !(current.nodeName && current.nodeType)) {
+  if (current && typeof(current) == 'object' && current.indexOf != stringish && !(current.nodeName && current.nodeType) && (!current.$family || current.$family() == 'object')) {
     if (current.indexOf != arrayish) {
       var target = source[key];
 			if (target && typeof(target) == 'object' && current.indexOf != stringish && target.indexOf != arrayish) Object.merge(source[key], current);
