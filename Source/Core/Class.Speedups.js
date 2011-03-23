@@ -45,6 +45,7 @@ var parent = function(){
 
 
 var indexOf = Array.prototype.indexOf;
+var exec = RegExp.prototype.exec;
 //Speedup1: Avoid typeOf in reset
 
 // before: 
@@ -56,7 +57,7 @@ var indexOf = Array.prototype.indexOf;
 var reset = function(object){
 	for (var key in object){
 		var value = object[key];
-    if (value && typeof(value) == 'object') {
+    if (value && typeof(value) == 'object' && value.exec != exec) {
       if (value.indexOf != indexOf) {
 				var F = function(){};
 				F.prototype = value;
