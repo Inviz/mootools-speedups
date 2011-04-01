@@ -24,9 +24,10 @@ extends: Core/Core
 
 var arrayish = Array.prototype.indexOf;
 var stringish = String.prototype.indexOf
+var regexpish = RegExp.prototype.exec;
 //Speedup 1: Avoid typeOf
 var cloneOf = function(item){
-  if (item && typeof(item) == 'object' && item.indexOf != stringish && !(item.nodeName && item.nodeType)) {
+  if (item && typeof(item) == 'object' && item.indexOf != stringish && item.exec != regexpish && !(item.nodeName && item.nodeType)) {
     if (item.indexOf == arrayish) return item.clone();
     else return Object.clone(item);
   }
@@ -40,10 +41,10 @@ Array.implement('clone', function(){
 
 //Speedup 2: Avoid typeOf
 var mergeOne = function(source, key, current){
-  if (current && typeof(current) == 'object' && current.indexOf != stringish && !(current.nodeName && current.nodeType) && (!current.$family || current.$family() == 'object')) {
+  if (current && typeof(current) == 'object' && current.indexOf != stringish && current.exec != regexpish && !(current.nodeName && current.nodeType) && (!current.$family || current.$family() == 'object')) {
     if (current.indexOf != arrayish) {
       var target = source[key];
-			if (target && typeof(target) == 'object' && current.indexOf != stringish && target.indexOf != arrayish) Object.merge(source[key], current);
+			if (target && typeof(target) == 'object' && current.indexOf != stringish && target.exec != regexpish && target.indexOf != arrayish) Object.merge(source[key], current);
 			else source[key] = Object.clone(current);
     } else source[key] = current.clone();
   } else source[key] = current;
