@@ -22,29 +22,44 @@ extends: Core/Core
 
 (function(){
 
-var arrayish = Array.prototype.indexOf;
+var arrayish = Array.prototype.slice;
 var stringish = String.prototype.indexOf
 var regexpish = RegExp.prototype.exec;
 //Speedup 1: Avoid typeOf
+var object = {object: 1};
 var cloneOf = function(item){
-  if (item && typeof(item) == 'object' && item.indexOf != stringish && item.exec != regexpish && !(item.nodeName && item.nodeType)) {
-    if (item.indexOf == arrayish) return item.clone();
-    else return Object.clone(item);
+  if (item && typeof(item) == 'object') {
+    var family = item.$family && item.$family();
+    if (family == 'array' || item.slice == arrayish) return item.clone();
+    if (family ? family == 'object' : (!item.indexOf || item.indexOf != stringish) 
+      && (!item.exec || item.exec != regexpish)
+      && !(item.nodeName && item.nodeType))
+      return Object.clone(item);
   }
   return item;
 };
 Array.implement('clone', function(){
-	var i = this.length, clone = new Array(i);
-	while (i--) clone[i] = cloneOf(this[i]);
+	var i = this.length, clone = this.slice(0), item;
+	for (var item; i--;) {
+	  item = this[i];
+	  if (item && typeof(item) == 'object') {
+      var family = item.$family && item.$family();
+      if (family == 'array' || item.slice == arrayish) clone[i] = item.clone();
+      else if (family ? family == 'object' : (!item.indexOf || item.indexOf != stringish) 
+        && (!item.exec || item.exec != regexpish)
+        && !(item.nodeName && item.nodeType))
+        clone[i] = Object.clone(item);
+    }
+	}
 	return clone;
 });
 
 //Speedup 2: Avoid typeOf
 var mergeOne = function(source, key, current){
   if (current && typeof(current) == 'object' && current.indexOf != stringish && current.exec != regexpish && !(current.nodeName && current.nodeType) && (!current.$family || current.$family() == 'object')) {
-    if (current.indexOf != arrayish) {
+    if (current.slice != arrayish) {
       var target = source[key];
-			if (target && typeof(target) == 'object' && current.indexOf != stringish && target.exec != regexpish && target.indexOf != arrayish) Object.merge(source[key], current);
+			if (target && typeof(target) == 'object' && current.indexOf != stringish && target.exec != regexpish && target.slice != arrayish) Object.merge(source[key], current);
 			else source[key] = Object.clone(current);
     } else source[key] = current.clone();
   } else source[key] = current;
